@@ -7,3 +7,4 @@ description=Latest version of the ginstall binary
 [package:test]
 name=Test
 description=Test package for testing. Doesn't download anything
+files=foo|bar
