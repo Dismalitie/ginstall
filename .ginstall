@@ -1,0 +1,10 @@
+minVer=1.0
+
+[package:ginstall_latest]
+name=ginstall latest
+description=Latest version of the ginstall binary
+
+[package:test]
+name=Test
+description=Test package for testing. Doesn't download anything
+files=README.md
