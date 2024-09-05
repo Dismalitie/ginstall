@@ -215,7 +215,7 @@ else if (checkInternet())
             WebClient wc = new WebClient();
             foreach (string filepath in selectedPackage.Files)
             {
-                Console.WriteLine("Downloading file: " + filepath + " - " + selectedPackage.Files.ToList<string>().IndexOf(filepath)+1 + "/" + selectedPackage.Files.Length);
+                Console.WriteLine("Downloading file: " + filepath + " - " + (selectedPackage.Files.ToList<string>().IndexOf(filepath)+1) + "/" + selectedPackage.Files.Length);
                 try { await wc.DownloadFileTaskAsync(new Uri("https://raw.githubusercontent.com/" + author + "/" + repo + "/" + branch + "/" + filepath), packageInstallPath + Path.GetFileName(filepath)); }
                 catch
                 {
