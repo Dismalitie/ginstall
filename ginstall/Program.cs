@@ -3,7 +3,7 @@ using SoftCircuits.IniFileParser;
 using System.Net;
 using System.Net.NetworkInformation;
 
-double ver = 1.0;
+double ver = 1.4;
 
 #region funcs
 
