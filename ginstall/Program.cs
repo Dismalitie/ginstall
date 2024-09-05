@@ -93,6 +93,16 @@ else if (checkInternet())
 
     string author = args[0].Split('/')[0];
     string repo = args[0].Split('/')[1];
+    string branch = "main";
+    if (args[0].Split('/').Length == 3)
+    {
+        branch = args[0].Split('/')[2];
+        if (check404("https://github.com/" + author + "/" + repo + "/tree/" + branch))
+        {
+            error("The branch you are trying to download from doesn't exist!");
+            return;
+        }
+    }
 
     if (check404("https://github.com/" + author + "/" + repo))
     {
@@ -100,9 +110,9 @@ else if (checkInternet())
         return;
     }
     
-    if (check404("https://raw.githubusercontent.com/" + author + "/" + repo + "/main/.ginstall"))
+    if (check404("https://raw.githubusercontent.com/" + author + "/" + repo + "/" + branch + "/.ginstall"))
     {
-        error("Repository does not support ginstall!");
+        error("This repository or branch does not support ginstall!");
         return;
     }
 
@@ -111,7 +121,7 @@ else if (checkInternet())
 
     info("Fetching ginstall manifest...");
     if (File.Exists(".\\.ginstallCache")) { File.Delete(".\\.ginstallCache"); }
-    await File.WriteAllTextAsync(".\\.ginstallCache", await hc.GetStringAsync(new Uri("https://raw.githubusercontent.com/" + author + "/" + repo + "/main/.ginstall")));
+    await File.WriteAllTextAsync(".\\.ginstallCache", await hc.GetStringAsync(new Uri("https://raw.githubusercontent.com/" + author + "/" + repo + "/" + branch + "/.ginstall")));
 
     IniFile manifest = new IniFile();
     manifest.Load(".\\.ginstallCache");
@@ -205,7 +215,7 @@ else if (checkInternet())
             foreach (string filepath in selectedPackage.Files)
             {
                 Console.WriteLine("Downloading file: " + filepath + " - " + selectedPackage.Files.ToList<string>().IndexOf(filepath)+1 + "/" + selectedPackage.Files.Length);
-                try { await wc.DownloadFileTaskAsync(new Uri("https://raw.githubusercontent.com/" + author + "/" + repo + "/main/" + filepath), packageInstallPath + Path.GetFileName(filepath)); }
+                try { await wc.DownloadFileTaskAsync(new Uri("https://raw.githubusercontent.com/" + author + "/" + repo + "/" + branch + "/" + filepath), packageInstallPath + Path.GetFileName(filepath)); }
                 catch
                 {
                     error("Error downloading file. Skipping...");
@@ -222,5 +232,6 @@ else if (checkInternet())
         }
 
         Console.ForegroundColor = ConsoleColor.White;
+        if (File.Exists(".\\.ginstallCache")) { File.Delete(".\\.ginstallCache"); }
     }
 }
