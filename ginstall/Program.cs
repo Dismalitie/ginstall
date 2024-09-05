@@ -82,7 +82,8 @@ if (args.Length == 0)
 
     info("usage:");
     Console.ForegroundColor = ConsoleColor.Blue;
-    Console.WriteLine("ginstall <repo, ex Dismalitie/ginstall>");
+    Console.WriteLine("ginstall <repo + branch, ex Dismalitie/ginstall/dev>");
+    info("If no branch is provided, it will default to main.");
     Console.ForegroundColor = ConsoleColor.White;
 }
 else if (checkInternet())
